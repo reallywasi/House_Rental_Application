@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import '../styles/Register.scss'
+import {useNavigate} from "react-router-dom"
 const RegisterPage = () => {
 
     const [formData, setFormData] = useState({
@@ -11,6 +12,10 @@ const RegisterPage = () => {
         confirmPassword: "",
         profileImage: null,
       });
+
+
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 const handleChange=(e)=>{
     const {name,value,files}=e.target;
@@ -23,14 +28,58 @@ const handleChange=(e)=>{
 
     )
 }
-
 console.log(formData);
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+const [passwordMatch, setPasswordMatch] = useState(true)
+
+useEffect(() => {
+  setPasswordMatch(formData.password === formData.confirmPassword || formData.confirmPassword === "")
+})
+
+const navigate=useNavigate()
+
+
+const handleSubmit=async (e)=>{
+  e.preventDefault();
+
+
+
+try{
+  const register_form=new FormData();
+  for (var key in formData) {
+    register_form.append(key, formData[key])
+  }
+
+  const response = await fetch("http://localhost:3001/auth/register", {
+    method: "POST",
+    body: register_form
+  })
+
+if(response.ok)
+  {
+    navigate("/login")
+  }
+
+}catch(err)
+{
+console.log('REGISTRATION FAIL',err.message)
+}
+
+
+}
+
+
+
+
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   return (
     <div className='register'>
 
 <div className="register_content">
-        <form className="register_content_form" >
+        <form className="register_content_form" onSubmit={handleSubmit} >
           <input
             placeholder="First Name"
             name="firstName"
@@ -64,6 +113,11 @@ console.log(formData);
             type="password"
             required
           />
+
+
+          {!passwordMatch && (
+            <p style={{color:"red"}}>PASSWORDS ARE NOT MATCHED</p>
+          ) }
           <input
             placeholder="Confirm Password"
             name="confirmPassword"
@@ -99,7 +153,7 @@ console.log(formData);
             />
           )}
      
-          <button type="submit" >REGISTER</button>
+          <button type="submit" disabled={!passwordMatch} >REGISTER</button>
         </form>
         <a href="/login">Already have an account? Log In Here</a>
       </div>
