@@ -27,16 +27,20 @@
 
 
 const express = require("express");
+const app = express();
+
+
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const authRoutes= require("./routes/auth.js")
 dotenv.config();
 const cors = require("cors");
 
-const app = express();
+
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 
 //ROUTES
