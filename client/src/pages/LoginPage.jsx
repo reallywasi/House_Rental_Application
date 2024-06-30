@@ -82,8 +82,8 @@ const LoginPage = () => {
 
   return (
     <div className='login'>
-      <div className='login-content '>
-        <form className='login_content_form' onSubmit={handleSubmit}>
+    <div className='login_content'>
+      <form className='login_content_form' onSubmit={handleSubmit}>
         <input
             type="email"
             placeholder="Email"
