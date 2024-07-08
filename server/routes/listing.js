@@ -212,6 +212,8 @@ router.post("/create", upload.array("listingPhotos"), async (req, res) => {
   }
 });
 
+//_________________________________________________________________________________________
+
 // GET - Fetch listings by category
 router.get("/", async (req, res) => {
   const qcategory  = req.query.category;
@@ -264,11 +266,40 @@ router.get("/search/:search", async (req, res) => {
 
 //__________________________________________________________________
 
-// GET - Fetch details of a specific listing
-router.get("/:listingId", async (req, res) => {
-  const { listingId } = req.params;
+//  LISTING DETAILS 
 
+// router.get("/:listingId", async (req, res) => {
+//   const { listingId } = req.params;
+
+//   try {
+//     const listing = await Listing.findById(listingId).populate("creator");
+
+//     if (!listing) {
+//       return res.status(404).json({ error: "Listing not found" });
+//     }
+
+//     res.status(200).json(listing);
+//   } catch (error) {
+//     console.error("Error fetching listing details:", error.message);
+//     res.status(404).json({ error: "Failed to fetch listing details" });
+//   }
+// });
+
+
+// router.get("/:listingId", async (req, res) => {
+//   try {
+//     const { listingId } = req.params
+//     const listing = await Listing.findById(listingId)
+//     res.status(202).json(listing)
+//   } catch (err) {
+//     res.status(404).json({ message: "Listing can not found!", error: err.message })
+//   }
+// })
+//fewigfewgfl shflg lige ihew dfssfdsf
+// GET - Get listing details by ID
+router.get("/:listingId", async (req, res) => {
   try {
+    const { listingId } = req.params;
     const listing = await Listing.findById(listingId).populate("creator");
 
     if (!listing) {
@@ -282,4 +313,8 @@ router.get("/:listingId", async (req, res) => {
   }
 });
 
+
+
+
+//______________________________________________________
 module.exports = router;
