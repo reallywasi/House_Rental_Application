@@ -203,24 +203,24 @@ router.post("/create", upload.array("listingPhotos"), async (req, res) => {
       price,
     });
 
-    await newListing.save();
+    await newListing.save()
 
-    res.status(201).json(newListing);
-  } catch (error) {
-    console.error("Error creating listing:", error.message);
-    res.status(500).json({ error: "Failed to create listing" });
+    res.status(200).json(newListing)
+  } catch (err) {
+    res.status(409).json({ message: "Fail to create Listing", error: err.message })
+    console.log(err)
   }
 });
 
 // GET - Fetch listings by category
 router.get("/", async (req, res) => {
-  const { category } = req.query;
+  const qcategory  = req.query.category;
 
   try {
     let listings;
 
-    if (category) {
-      listings = await Listing.find({ category }).populate("creator");
+    if (qcategory) {
+      listings = await Listing.find({ category:qcategory }).populate("creator");
     } else {
       listings = await Listing.find().populate("creator");
     }
@@ -228,16 +228,19 @@ router.get("/", async (req, res) => {
     res.status(200).json(listings);
   } catch (error) {
     console.error("Error fetching listings:", error.message);
-    res.status(500).json({ error: "Failed to fetch listings" });
+    res.status(400).json({ error: "Failed to fetch listings" });
   }
 });
+
+
+//____________________________________________________________
 
 // GET - Search listings by category or title
 router.get("/search/:search", async (req, res) => {
   const { search } = req.params;
 
   try {
-    let listings;
+    let listings=[];
 
     if (search === "all") {
       listings = await Listing.find().populate("creator");
@@ -253,9 +256,13 @@ router.get("/search/:search", async (req, res) => {
     res.status(200).json(listings);
   } catch (error) {
     console.error("Error searching listings:", error.message);
-    res.status(500).json({ error: "Failed to search listings" });
+    res.status(404).json({ error: "Failed to search listings" });
   }
 });
+
+
+
+//__________________________________________________________________
 
 // GET - Fetch details of a specific listing
 router.get("/:listingId", async (req, res) => {
@@ -271,7 +278,7 @@ router.get("/:listingId", async (req, res) => {
     res.status(200).json(listing);
   } catch (error) {
     console.error("Error fetching listing details:", error.message);
-    res.status(500).json({ error: "Failed to fetch listing details" });
+    res.status(404).json({ error: "Failed to fetch listing details" });
   }
 });
 
