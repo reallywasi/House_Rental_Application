@@ -76,6 +76,8 @@ const cors = require("cors");
 
 const listingRoutes = require("./routes/listing.js");
 const authRoutes = require("./routes/auth.js");
+const bookingRoutes=require("./routes/booking.js")
+const userRoutes=require("./routes/user.js")
 
 dotenv.config();
 
@@ -87,7 +89,8 @@ app.use(express.static("public"));
 // Routes
 app.use("/auth", authRoutes);
 app.use("/properties", listingRoutes);
-
+app.use("/bookings",bookingRoutes)
+app.use("/users",userRoutes)
 // MongoDB connection
 const PORT = process.env.PORT || 3001; // Use the provided PORT from environment or default to 3001
 

@@ -80,6 +80,4 @@ const ListingSchema = new mongoose.Schema(
 )
 
 const Listing = mongoose.model("Listing", ListingSchema )
-//                            here first argument tells ki mongodb me ye collection kis naam se save hoga 
-
 module.exports = Listing
