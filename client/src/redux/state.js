@@ -71,7 +71,8 @@ export const userSlice = createSlice({
     },
     setReservationList: (state, action) => {
       state.user.reservationList = action.payload
-    }
+    },
+    
   }
 })
 
