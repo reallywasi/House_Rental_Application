@@ -48,6 +48,9 @@ router.patch("/:userId/:listingId", async (req, res) => {
   }
 })
 
+
+//________________________________________________________________________
+
 /* GET PROPERTY LIST */
 router.get("/:userId/properties", async (req, res) => {
   try {
@@ -59,6 +62,11 @@ router.get("/:userId/properties", async (req, res) => {
     res.status(404).json({ message: "Can not find properties!", error: err.message })
   }
 })
+
+
+//_________________________________________________________________________
+
+
 
 /* GET RESERVATION LIST */
 router.get("/:userId/reservations", async (req, res) => {
