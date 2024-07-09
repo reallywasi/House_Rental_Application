@@ -10,13 +10,17 @@ import "../styles/Navbar.scss"
 import MenuIcon from '@mui/icons-material/Menu';
 import {Link} from 'react-router-dom'
 import { setLogout } from '../redux/state'
-
+import { useNavigate } from 'react-router-dom'
 
 {/*================================================================================================== */}
 const Navbar = () => {
 
 const[dropdownMenu,setDropdownMenu]=useState(false);
 const user=useSelector((state)=>state.user)
+const [search,setSearch]=useState("");
+const navigate=useNavigate();
+
+
 
 const dispatch=useDispatch()
 
@@ -31,9 +35,15 @@ const dispatch=useDispatch()
 
 
       <div className='navbar_search'>
-        <input type="text" placeholder='search...' />
-        <IconButton>
-          <SearchIcon sx={{ color: variables.pinkred }} />
+        <input type="text" placeholder='search...'
+        value={search}
+        onChange={(e)=>{
+setSearch(e.target.value)
+        }} />
+        <IconButton disabled={search===""}>
+          <SearchIcon sx={{ color: variables.pinkred }}
+            onClick={() => {navigate(`/properties/search/${search}`)}}
+          />
         </IconButton>
       </div>
 {/*================================================================================================== */}
