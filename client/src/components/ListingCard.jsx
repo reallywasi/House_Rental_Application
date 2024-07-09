@@ -42,6 +42,31 @@ const ListingCard = ({
   const dispatch = useDispatch();
 
 
+//add TO WISHLIST FINCTION HERE
+const user = useSelector((state) => state.user);
+const wishList =user?.wishList || [];
+
+const isLiked = wishList?.find((item) => item?._id === listingId);
+
+const patchWishList = async () => {
+  if (user?._id !== creator._id) {
+  const response = await fetch(
+    `http://localhost:3001/users/${user?._id}/${listingId}`,
+    {
+      method: "PATCH",
+      header: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await response.json();
+  dispatch(setWishList(data.wishList));
+} else { return }
+};
+
+
+
+
 
   return (
     <div
@@ -107,7 +132,20 @@ const ListingCard = ({
         </>
       )}
 
-    </div>
+      <button
+        className="favorite"
+        onClick={(e) => {
+          e.stopPropagation();
+          patchWishList();
+        }}
+        disabled={!user}
+      >
+        {isLiked ? (
+          <Favorite sx={{ color: "red" }} />
+        ) : (
+          <Favorite sx={{ color: "white" }} />
+        )}
+      </button>    </div>
   );
 };
 
